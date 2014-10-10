@@ -14,7 +14,7 @@ output:
 
 If you want to beautify your output, it always starts here. 
 There are many options, and a few are laid out below. 
-The `knitr` package has lots of options explained [here](http://yihui.name/knitr/options#chunk_options) in detail. 
+The `knitr` package has lots of options explained [here](http://yihui.name/knitr/options#chunk_options) and [here](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html) in detail. 
 
 Part of configuring your script is loading the correct packages. 
 Always load all packages together at the top. 
@@ -177,14 +177,14 @@ se <- function(a) {
 First, create an empty data frame, and then fill in the row and column names. 
 Next fill in the columns with the `aggregate` function. 
 
-```{r aggregateGroups}
+```{r aggregateGroups, results='asis'}
 grouped <- data.frame(matrix(0, nrow=nlevels(dat$z), ncol=3))
 names(grouped) <- c('mean', 'sd', 'se')
 row.names(grouped) <- levels(dat$z)
 grouped$mean <- aggregate(dat$y, by=list(dat$z), FUN='mean')$x
 grouped$sd <- aggregate(dat$y, by=list(dat$z), FUN='sd')$x
 grouped$se <- aggregate(dat$y, by=list(dat$z), FUN='se')$x
-grouped
+kable(grouped)
 ```
 
 
