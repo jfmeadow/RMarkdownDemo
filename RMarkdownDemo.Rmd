@@ -20,7 +20,7 @@ Part of configuring your script is loading the correct packages.
 Always load all packages together at the top. 
 That way future users will know exactly what they need to install. 
 
-```{r config, echo=FALSE}
+```{r config, echo=TRUE}
 library(scales)
 library(knitr)
 opts_chunk$set(background='gray80', tidy=FALSE, cache=FALSE, comment='',
@@ -62,6 +62,7 @@ The `knitr` package has a simple built-in function for dealing with tables. This
 ```{r previewData, results='asis'}
 kable(head(dat))
 ```
+
 
 
 
@@ -119,7 +120,6 @@ lm.zy <- lm(y ~ z, data=dat)
 kable(summary(lm.xy)$coefficients)
 kable(summary(lm.zy)$coefficients)
 ```
-
 
 Since we have a clear pattern, plot the line we just modeled. 
 
