@@ -11,6 +11,12 @@ Always load all packages together at the top.
 That way future users will know exactly what they need to install. 
 
 
+```r
+library(scales)
+library(knitr)
+opts_chunk$set(background='gray80', tidy=FALSE, cache=FALSE, comment='',
+               dpi=72, fig.path='RMDfigs/', fig.width=4, fig.height=4)
+```
 
 
 If you ever want someone else to be able to perfectly reproduce your results, always set the random seed at the top. Any number will do. Note that it never hurts to set the seed, *but* robust results should always stand up to random number generators. 
@@ -72,13 +78,6 @@ kable(head(dat))
 |  4| 11.290|a  |
 |  5| 10.473|a  |
 |  6| 12.369|a  |
-
-
-
-
-
-
-
 
 
 
@@ -173,6 +172,7 @@ plot(dat$y ~ dat$x, pch=16, col='gray50',
      xlab='The Independent Variable', 
      ylab='The Dependent Variable')
 abline(lm.xy, col='tomato', lwd=4, lty=2)
+pval <- summary(lm.xy)$coefficients[8]
 text(0, max(dat$y), 'p < 0.0001', font=4, pos=4)
 ```
 
@@ -205,7 +205,6 @@ plot(dat$y ~ dat$x, col=dat$col, pch=16)
 ```
 
 ![plot of chunk replotNewColors](RMDfigs/replotNewColors.png) 
-
 
 
 
@@ -266,15 +265,13 @@ kable(summary(lm.RepReg)$coefficients)
 |as.numeric(z) |   1.9048|     0.2114|  9.0111|             0.0000|
 
 
-
-
-
 Plot the data showing error bars (or standard deviation bars in this example). 
 
 * The `arrows` function is one of the easiest way to create error bars. 
 * After the error bars are in place, plot the colored points on top. 
-
-
+* Then show the semitransparent individual points to give a nice sense of the distribution. 
+* Plot the modeled line. 
+* Finally put a legend in the top corner. Legends can be tricky, and require lots of checking to make sure the points, labels, and colors are all perfectly lined up the way they should be. However, Edward Tufte might suggest that we cut the legend altogether and instead label the plot itself. So in that spirit add an axis that gives the same information. The legend is left for instructive purposes. 
 
 
 ```r
@@ -282,7 +279,7 @@ y.lim <- c(min(grouped$mean - grouped$sd),
            max(grouped$mean + grouped$sd))
 plot(grouped$mean ~ c(1:5), type='n', 
      ylim=y.lim, las=1, bty='n', 
-     xlab = 'This other variable', 
+     xlab = 'This other variable', xaxt='n', 
      ylab = 'The response variable')
 arrows(x0 = c(1:5), y0 = grouped$mean + grouped$sd, 
        x1 = c(1:5), y1 = grouped$mean - grouped$sd, 
@@ -296,6 +293,7 @@ legend('topleft',
        legend=row.names(grouped), 
        pt.bg=colors5, pch=21, pt.cex=1.5, 
        bty='n', text.col='gray30', y.intersp=.8)       
+axis(side=1, at=c(1:5), labels=row.names(grouped))
 ```
 
 ![plot of chunk plotGrouped](RMDfigs/plotGrouped.png) 
