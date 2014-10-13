@@ -81,6 +81,12 @@ kable(head(dat))
 
 
 
+<!-- This is a comment in html, which is a great way to include comments in an Rmarkdown document. 
+The following two code chunks are also hidden - because of the 'echo=FALSE' command. 
+The code is also not evaluated in R - notice the 'eval=FALSE' command. --> 
+
+
+
 
 
 

@@ -1,11 +1,11 @@
 ---
 title: "RmarkdownDemo"
 output:
-  pdf_document:
-    highlight: tango
-    toc: yes
   html_document:
     keep_md: yes
+    toc: yes
+  pdf_document:
+    highlight: tango
     toc: yes
   word_document: default
 ---
@@ -62,6 +62,12 @@ The `knitr` package has a simple built-in function for dealing with tables. This
 ```{r previewData, results='asis'}
 kable(head(dat))
 ```
+
+
+
+<!-- This is a comment in html, which is a great way to include comments in an Rmarkdown document. 
+The following two code chunks are also hidden - because of the 'echo=FALSE' command. 
+The code is also not evaluated in R - notice the 'eval=FALSE' command. --> 
 
 
 ```{r reassignFactor, eval=FALSE, echo=FALSE}
