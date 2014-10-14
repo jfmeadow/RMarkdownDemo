@@ -12,5 +12,5 @@ To run this code and get .html output, you will need:
 To run this and get .pdf output, you will also need some version of LaTeX. This is a big free program, and it will take some time to install: 
 
 * Mac = install [MacTeX](https://tug.org/mactex/) (complete version). 
-* Windows = install [MikTek](http://miktex.org/) (complete version). 
+* Windows = install [MikTex](http://miktex.org/) (complete version). 
 
