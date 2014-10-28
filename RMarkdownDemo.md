@@ -4,7 +4,9 @@
 
 If you want to beautify your output, it always starts here. 
 There are many options, and a few are laid out below. 
-The `knitr` package has lots of options explained [here](http://yihui.name/knitr/options#chunk_options) and [here](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html) in detail. 
+The `knitr` package has lots of options explained 
+[here](http://yihui.name/knitr/options#chunk_options) and 
+[here](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html) in detail. 
 
 Part of configuring your script is loading the correct packages. 
 Always load all packages together at the top. 
@@ -19,7 +21,8 @@ opts_chunk$set(background='gray80', tidy=FALSE, cache=FALSE, comment='',
 ```
 
 
-If you ever want someone else to be able to perfectly reproduce your results, always set the random seed at the top. Any number will do. Note that it never hurts to set the seed, *but* robust results should always stand up to random number generators. 
+If you ever want someone else to be able to perfectly reproduce your results, always set the random seed at the top. 
+Any number will do. Note that it never hurts to set the seed, *but* robust results should always stand up to random number generators. 
 
 
 ```r
@@ -27,12 +30,21 @@ set.seed(1415)
 ```
 
 
+
+
+
 ## Generate fake data
 
-The `x` value is just numbers 1-100 for an x axis value. This might be time or distance, etc.  For the response variable, generate a random normal distribution with the `rnorm` function, and then add a trend with the `seq` function. Then we'll add some fake treatments with `letters`. 
+The `x` value is just numbers 1-100 for an x axis value. 
+This might be time or distance, etc.  
+For the response variable, generate a random normal distribution with the `rnorm` function, 
+and then add a trend with the `seq` function. 
+Then we'll add some fake treatments with `letters`. 
 
 
 ```r
+# setwd('~/Desktop')
+
 x <- 1:100
 y <- rnorm(100, sd=3) + seq(10.05, 20, 10/100)
 z <- factor(rep(letters[1:5], each=20))
@@ -51,17 +63,18 @@ head(dat)
 ```
 
 ```
-  x      y z
-1 1 13.615 a
-2 2 13.997 a
-3 3  9.891 a
-4 4 11.290 a
-5 5 10.473 a
-6 6 12.369 a
+  x        y z
+1 1 13.61478 a
+2 2 13.99715 a
+3 3  9.89061 a
+4 4 11.28953 a
+5 5 10.47271 a
+6 6 12.36858 a
 ```
 
 
-The `knitr` package has a simple built-in function for dealing with tables. This works well in either html or pdf output. 
+The `knitr` package has a simple built-in function for dealing with tables. 
+This works well in either html or pdf output. 
 
 
 ```r
@@ -70,15 +83,14 @@ kable(head(dat))
 
 
 
-|  x|      y|z  |
-|--:|------:|:--|
-|  1| 13.615|a  |
-|  2| 13.997|a  |
-|  3|  9.891|a  |
-|  4| 11.290|a  |
-|  5| 10.473|a  |
-|  6| 12.369|a  |
-
+  x          y  z  
+---  ---------  ---
+  1   13.61478  a  
+  2   13.99715  a  
+  3    9.89061  a  
+  4   11.28953  a  
+  5   10.47271  a  
+  6   12.36858  a  
 
 
 <!-- This is a comment in html, which is a great way to include comments in an Rmarkdown document. 
@@ -89,6 +101,10 @@ The code is also not evaluated in R - notice the 'eval=FALSE' command. -->
 
 
 
+```r
+# remove a few samples that we don't want to analyze. 
+# dat <- dat[-c(3, 4, 5, 12), ]
+```
 
 
 
@@ -98,7 +114,7 @@ One of the best features in `knitr` and Rmarkdown generally, is the ability to e
 
 This table has 100 rows and 3 columns. The 'x' variable starts at 1 and ends at 100. 
 
-
+0.0596705
 
 ## Explore the data
 
@@ -114,25 +130,25 @@ Plot the data - a trend emerges! Here are several ways to look at the data.
 plot(dat$y ~ dat$x)
 ```
 
-![plot of chunk plotData](RMDfigs/plotData1.png) 
+![](RMDfigs/plotData-1.png) 
 
 ```r
 plot(dat$y ~ dat$z, col=unique(dat$z))
 ```
 
-![plot of chunk plotData](RMDfigs/plotData2.png) 
+![](RMDfigs/plotData-2.png) 
 
 ```r
 plot(dat$y ~ dat$x, col=dat$z)
 ```
 
-![plot of chunk plotData](RMDfigs/plotData3.png) 
+![](RMDfigs/plotData-3.png) 
 
 ```r
 plot(dat$y ~ dat$x, col=dat$z, pch=16)
 ```
 
-![plot of chunk plotData](RMDfigs/plotData4.png) 
+![](RMDfigs/plotData-4.png) 
 
 
 
@@ -148,26 +164,22 @@ lm.zy <- lm(y ~ z, data=dat)
 kable(summary(lm.xy)$coefficients)
 ```
 
-
-
-|            | Estimate| Std. Error| t value| Pr(>&#124;t&#124;)|
-|:-----------|--------:|----------:|-------:|------------------:|
-|(Intercept) |   9.8493|     0.5971| 16.4959|             0.0000|
-|x           |   0.0943|     0.0103|  9.1877|             0.0000|
+                Estimate   Std. Error    t value   Pr(>|t|)
+------------  ----------  -----------  ---------  ---------
+(Intercept)    9.8492584    0.5970717   16.49594          0
+x              0.0943083    0.0102646    9.18769          0
 
 ```r
 kable(summary(lm.zy)$coefficients)
 ```
 
-
-
-|            | Estimate| Std. Error| t value| Pr(>&#124;t&#124;)|
-|:-----------|--------:|----------:|-------:|------------------:|
-|(Intercept) |  10.7411|     0.6683| 16.0730|             0.0000|
-|zb          |   2.6180|     0.9451|  2.7702|             0.0067|
-|zc          |   2.9348|     0.9451|  3.1054|             0.0025|
-|zd          |   5.9349|     0.9451|  6.2798|             0.0000|
-|ze          |   7.8656|     0.9451|  8.3227|             0.0000|
+                Estimate   Std. Error     t value    Pr(>|t|)
+------------  ----------  -----------  ----------  ----------
+(Intercept)    10.741143    0.6682720   16.073011   0.0000000
+zb              2.618026    0.9450793    2.770166   0.0067394
+zc              2.934843    0.9450793    3.105394   0.0025049
+zd              5.934905    0.9450793    6.279796   0.0000000
+ze              7.865640    0.9450793    8.322729   0.0000000
 
 Since we have a clear pattern, plot the line we just modeled. 
 
@@ -182,7 +194,7 @@ pval <- summary(lm.xy)$coefficients[8]
 text(0, max(dat$y), 'p < 0.0001', font=4, pos=4)
 ```
 
-![plot of chunk plotLM](RMDfigs/plotLM.png) 
+![](RMDfigs/plotLM-1.png) 
 
 Much better. 
 
@@ -210,7 +222,7 @@ And check the new colors. Note they are now a bit more colorblind-proof.
 plot(dat$y ~ dat$x, col=dat$col, pch=16)
 ```
 
-![plot of chunk replotNewColors](RMDfigs/replotNewColors.png) 
+![](RMDfigs/replotNewColors-1.png) 
 
 
 
@@ -244,15 +256,13 @@ grouped$se <- aggregate(dat$y, by=list(dat$z), FUN='se')$x
 kable(grouped)
 ```
 
-
-
-|   |  mean|    sd|     se|
-|:--|-----:|-----:|------:|
-|a  | 10.74| 3.072| 0.6870|
-|b  | 13.36| 2.589| 0.5789|
-|c  | 13.68| 3.632| 0.8121|
-|d  | 16.68| 2.731| 0.6106|
-|e  | 18.61| 2.805| 0.6272|
+          mean         sd          se
+---  ---------  ---------  ----------
+a     10.74114   3.072380   0.6870050
+b     13.35917   2.589104   0.5789414
+c     13.67599   3.631762   0.8120866
+d     16.67605   2.730877   0.6106427
+e     18.60678   2.805064   0.6272314
 
 
 Create a simple model that now takes advantage of the replicated regression study design. 
@@ -263,12 +273,10 @@ lm.RepReg <- lm(y ~ as.numeric(z), data=dat)
 kable(summary(lm.RepReg)$coefficients)
 ```
 
-
-
-|              | Estimate| Std. Error| t value| Pr(>&#124;t&#124;)|
-|:-------------|--------:|----------:|-------:|------------------:|
-|(Intercept)   |   8.8974|     0.7011| 12.6908|             0.0000|
-|as.numeric(z) |   1.9048|     0.2114|  9.0111|             0.0000|
+                 Estimate   Std. Error     t value   Pr(>|t|)
+--------------  ---------  -----------  ----------  ---------
+(Intercept)      8.897379    0.7010884   12.690809          0
+as.numeric(z)    1.904816    0.2113861    9.011074          0
 
 
 Plot the data showing error bars (or standard deviation bars in this example). 
@@ -302,7 +310,7 @@ legend('topleft',
 axis(side=1, at=c(1:5), labels=row.names(grouped))
 ```
 
-![plot of chunk plotGrouped](RMDfigs/plotGrouped.png) 
+![](RMDfigs/plotGrouped-1.png) 
 
 
 

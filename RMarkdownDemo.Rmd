@@ -1,11 +1,11 @@
 ---
 title: "RmarkdownDemo"
 output:
-  pdf_document:
-    highlight: tango
-    toc: yes
   html_document:
     keep_md: yes
+    toc: yes
+  pdf_document:
+    highlight: tango
     toc: yes
   word_document: default
 ---
@@ -14,7 +14,9 @@ output:
 
 If you want to beautify your output, it always starts here. 
 There are many options, and a few are laid out below. 
-The `knitr` package has lots of options explained [here](http://yihui.name/knitr/options#chunk_options) and [here](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html) in detail. 
+The `knitr` package has lots of options explained 
+[here](http://yihui.name/knitr/options#chunk_options) and 
+[here](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html) in detail. 
 
 Part of configuring your script is loading the correct packages. 
 Always load all packages together at the top. 
@@ -28,18 +30,28 @@ opts_chunk$set(background='gray80', tidy=FALSE, cache=FALSE, comment='',
 ```
 
 
-If you ever want someone else to be able to perfectly reproduce your results, always set the random seed at the top. Any number will do. Note that it never hurts to set the seed, *but* robust results should always stand up to random number generators. 
+If you ever want someone else to be able to perfectly reproduce your results, always set the random seed at the top. 
+Any number will do. Note that it never hurts to set the seed, *but* robust results should always stand up to random number generators. 
 
 ```{r setSeed}
 set.seed(1415)
 ```
 
 
+
+
+
 ## Generate fake data
 
-The `x` value is just numbers 1-100 for an x axis value. This might be time or distance, etc.  For the response variable, generate a random normal distribution with the `rnorm` function, and then add a trend with the `seq` function. Then we'll add some fake treatments with `letters`. 
+The `x` value is just numbers 1-100 for an x axis value. 
+This might be time or distance, etc.  
+For the response variable, generate a random normal distribution with the `rnorm` function, 
+and then add a trend with the `seq` function. 
+Then we'll add some fake treatments with `letters`. 
 
 ```{r simulateData}
+# setwd('~/Desktop')
+
 x <- 1:100
 y <- rnorm(100, sd=3) + seq(10.05, 20, 10/100)
 z <- factor(rep(letters[1:5], each=20))
@@ -57,12 +69,12 @@ head(dat)
 ```
 
 
-The `knitr` package has a simple built-in function for dealing with tables. This works well in either html or pdf output. 
+The `knitr` package has a simple built-in function for dealing with tables. 
+This works well in either html or pdf output. 
 
 ```{r previewData, results='asis'}
 kable(head(dat))
 ```
-
 
 
 <!-- This is a comment in html, which is a great way to include comments in an Rmarkdown document. 
@@ -72,12 +84,12 @@ The code is also not evaluated in R - notice the 'eval=FALSE' command. -->
 
 ```{r reassignFactor, eval=FALSE, echo=FALSE}
 # reassign the factor levels to change model order downstream. 
-dat$z <- factor(dat$z, levels=c('b', 'c', 'd', 'e', 'a'))
+# dat$z <- factor(dat$z, levels=c('b', 'c', 'd', 'e', 'a'))
 ```
 
-```{r removeCrappySamples, eval=FALSE, echo=FALSE}
+```{r removeCrappySamples, eval=TRUE, echo=TRUE}
 # remove a few samples that we don't want to analyze. 
-dat <- dat[-c(3, 4, 5, 12), ]
+# dat <- dat[-c(3, 4, 5, 12), ]
 ```
 
 
@@ -88,7 +100,7 @@ One of the best features in `knitr` and Rmarkdown generally, is the ability to e
 
 This table has `r nrow(dat)` rows and `r ncol(dat)` columns. The 'x' variable starts at `r min(dat$x)` and ends at `r max(dat$x)`. 
 
-
+`r mean(rnorm(100))`
 
 ## Explore the data
 
